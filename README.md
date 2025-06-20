@@ -1,15 +1,14 @@
-# ClimaTrack:-
-          A Weather Analytics and Climate Trend Detection System
+# ClimaTrack:-       A Weather Analytics and Climate Trend Detection System
 
 
 
-📌 Objective:
+# Objective:
 To collect, store, and analyze weather data (temperature, humidity, wind speed, and conditions) over time for multiple Indian cities using OpenWeatherMap API. We'll use PostgreSQL for structured storage, Python for automation + data analysis + visualization, and Excel for business-ready dashboarding with formula-driven KPIs.
 
 
 
 
-🧱 Tech Stack:
+# Tech Stack:
 
 | Component              | Technology                                          |
 | ---------------------- | --------------------------------------------------- |
@@ -23,17 +22,17 @@ To collect, store, and analyze weather data (temperature, humidity, wind speed, 
 
 
 
-🔍 Cities Covered:
-        Mumbai
-        Delhi
-        Chennai
-        Kolkata
-        Bangalore
-        Hyderabad
+# Cities Covered:
+Mumbai
+Delhi
+Chennai
+Kolkata
+Bangalore
+Hyderabad
 
         
 
-🧾 Phase 1: PostgreSQL Database Schema
+# Phase 1: PostgreSQL Database Schema
 
 -- weather_data.sql
 CREATE TABLE weather_data (
@@ -48,10 +47,10 @@ CREATE TABLE weather_data (
 
 
 
-🐍 Phase 2: Python Script (Data Fetching + Storage)
+# Phase 2: Python Script (Data Fetching + Storage)
 
 
-# scripts/fetch_and_store.py
+file name : scripts/fetch_and_store.py
 import requests, pandas as pd
 from sqlalchemy import create_engine
 from datetime import datetime
@@ -67,7 +66,7 @@ def get_weather(city):
         'units': 'metric'
     }).json()
 
-    return {
+return{
         'city': city,
         'temperature': res['main']['temp'],
         'humidity': res['main']['humidity'],
@@ -78,15 +77,18 @@ def get_weather(city):
 
 data = [get_weather(city) for city in CITIES]
 df = pd.DataFrame(data)
-
-# PostgreSQL connection
-engine = create_engine('postgresql://username:password@localhost/climatrack_db')
+engine = create_engine('postgresql://username:password@localhost/climatrack_db')  #postgres conn
 df.to_sql('weather_data', engine, if_exists='append', index=False)
 
+# NOTE : run fetch_and_store.py script every 1 hour (or even every 30 minutes) so it stores fresh data in your weather_data table with a new timestamp for analysis.
 
-OUTPUT in pgAdmin:-
+# OUTPUT in pgAdmin:- 
 
 
 select * from weather_data;
+
 ![image](https://github.com/user-attachments/assets/2dd957c5-1a15-4d54-b487-12da0b79d699)
+
+
+# Phase 3: SQL Analysis Queries 
 
