@@ -127,6 +127,13 @@ FROM weather_data
 GROUP BY city
 ORDER BY temp_spike DESC;
 ```
+Original Table:
+
+![image](https://github.com/user-attachments/assets/64adeb1a-7e79-4125-8256-83d9065d062e)
+
+Output of above query:
+
+![image](https://github.com/user-attachments/assets/20869539-bde0-4baa-81f0-141da111d8ca)
 
 > Use this to detect which city shows the **greatest variation in temperature** over time.
 
@@ -169,17 +176,25 @@ Example:
 ```python
 import seaborn as sns
 import matplotlib.pyplot as plt
+import pandas as pd
+from sqlalchemy import create_engine
 
-# Load from DB
+# DB connection
+engine = create_engine('postgresql+psycopg2://postgres:password@localhost/climatrack_db')
+
+# Load data
 df = pd.read_sql("SELECT * FROM weather_data", engine)
 
-# Line plot
+# Plot
 sns.lineplot(data=df, x='timestamp', y='temperature', hue='city')
 plt.title("Temperature Trends Over Time")
 plt.xticks(rotation=45)
 plt.tight_layout()
 plt.show()
+
 ```
+
+![image](https://github.com/user-attachments/assets/b4294bfc-1555-4f60-8f4d-71ed2bb0dd5b)
 
 ---
 
